@@ -6,7 +6,7 @@ public class PlayerBody : KinematicBody2D
     [Export]
     public int n2 = 8;
     private Vector2 velocity = new Vector2();
-    private int speed = 150, i;
+    private int speed = 200, i;
     private double n, x, y;
     private Godot.CollisionPolygon2D col;
 
@@ -20,8 +20,7 @@ public class PlayerBody : KinematicBody2D
 
     public override void _Ready()
     {
-        setar_escudo();
-        setar_player();
+        
         
     }
 

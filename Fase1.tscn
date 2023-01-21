@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://SalasMapa/Style1/1.tscn" type="PackedScene" id=2]
+[ext_resource path="res://SalasMapa/Style1/2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://SalasMapa/Style1/BoosStyle1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://SalasMapa/Style2/1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://SalasMapa/Style2/BossStyle2.tscn" type="PackedScene" id=6]
+[ext_resource path="res://SalasMapa/Style2/2.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GameManager.cs" type="Script" id=8]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( -4195, -7566 )
+script = ExtResource( 8 )
+
+[node name="Node2D2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 288, 792 )
+
+[node name="Node2D3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 11073, 803 )
+
+[node name="Node2D4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 309, 9521 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 11998, 8841 )
+
+[node name="p1" type="Position2D" parent="."]
+position = Vector2( 4548, 4525 )
+
+[node name="p2" type="Position2D" parent="."]
+position = Vector2( 12988, 4389 )
+
+[node name="boss" type="Position2D" parent="."]
+position = Vector2( 1754, 9711 )
+
+[node name="Node2D5" parent="." instance=ExtResource( 5 )]
+position = Vector2( 30173, 705 )
+
+[node name="Node2D6" parent="." instance=ExtResource( 7 )]
+position = Vector2( 40877, 705 )
+
+[node name="Node2D7" parent="." instance=ExtResource( 6 )]
+position = Vector2( 30186, 9416 )

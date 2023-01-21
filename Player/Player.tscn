@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Testes/PlayerBody.cs" type="Script" id=1]
 [ext_resource path="res://Player/shooter.gd" type="Script" id=2]
+[ext_resource path="res://assets/bloco_parede1.png" type="Texture" id=3]
 
 [node name="Player" type="KinematicBody2D"]
+position = Vector2( -22, 18 )
 scale = Vector2( 40, 40 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -27,3 +29,8 @@ polygon = PoolVector2Array( -1, -1, -1, 0, 0, 0, 0, -1 )
 current = true
 zoom = Vector2( 2, 2 )
 smoothing_enabled = true
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.0999985, -0.0999994 )
+scale = Vector2( 0.165234, 0.151172 )
+texture = ExtResource( 3 )
