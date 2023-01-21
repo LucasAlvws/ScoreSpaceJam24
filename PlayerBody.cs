@@ -1,20 +1,19 @@
 using Godot;
 using System;
 
-public class boneco : KinematicBody2D
+public class PlayerBody : KinematicBody2D
 {
     [Export]
-    public int n2 = 4;
+    public int n2 = 8;
     private Vector2 velocity = new Vector2();
-    private int speed = 250;
+    private int speed = 300, i;
     private double n, x, y;
-    private int i;
     private Godot.CollisionPolygon2D col;
     public override void _Ready()
     {
-        _Draw();
+        setar_player();
     }
-    
+
     public void GetInput()
     {
         velocity = new Vector2();
@@ -33,13 +32,10 @@ public class boneco : KinematicBody2D
 
         velocity = velocity.Normalized() * speed;
     }
-
     public override void _PhysicsProcess(float delta)
     {
         GetInput();
         velocity = MoveAndSlide(velocity);
-        setar_colisao();
-        
     }
 
     private Vector2[] devolve_vetor(double n2)
@@ -68,22 +64,26 @@ public class boneco : KinematicBody2D
         return color.ToArray();
     }
     
-    public override void _Draw()
-    {
-        DrawPolygon(devolve_vetor(n2), devolve_color(n2), antialiased:true);
-        /*Polygon2D linha = new Polygon2D();
-        Vector2[] linhas = {
-            devolve_vetor(n2)[0],
-            devolve_vetor(n2)[1]
-        };
-        linha.Polygon = linhas;
-        linha.Color = new Color(50,50,50);
-        AddChild(linha);*/
-
-        /*DrawLine(devolve_vetor(n2)[0],devolve_vetor(n2)[1], new Color(50,50,50),width:4);*/
+    private void setar_colisao(string node){
+        if(node.Equals("player")){
+            col = GetNode<Godot.CollisionPolygon2D>("colisao_player");
+            col.Polygon = devolve_vetor(n2);
+        }else if(node.Equals("escudo")){
+            col = GetNode<Godot.CollisionPolygon2D>("colisao_escudo");
+            col.Polygon = devolve_vetor(n2);
+            col.GlobalPosition = new Vector2(0.1f,0.1f);
+        }
+        
     }
-    private void setar_colisao(){
-        col = GetNode<Godot.CollisionPolygon2D>("colisao");
-        col.Polygon = devolve_vetor(n2);
-    }    
+
+    private void setar_player(){
+        Godot.Node2D player = GetNode<Godot.Node2D>("player");
+        Polygon2D playerBody = new Polygon2D();
+        playerBody.Polygon = devolve_vetor(n2);
+        playerBody.Color = new Color(0,0,0);
+        playerBody.Antialiased = true;
+        AddChild(playerBody);
+        setar_colisao("player");
+        
+    }
 }
