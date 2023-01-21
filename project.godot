@@ -11,8 +11,13 @@ config_version=4
 [application]
 
 config/name="GameJam1"
-run/main_scene="res://Teste.tscn"
+run/main_scene="res://Testes/Teste.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
 
 [gui]
 
@@ -72,6 +77,7 @@ project/assembly_name="GameJam1"
 
 [physics]
 
+common/physics_fps=75
 common/enable_pause_aware_picking=true
 
 [rendering]

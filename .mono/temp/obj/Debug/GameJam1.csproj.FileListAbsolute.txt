@@ -7,3 +7,12 @@ D:\GameJam\.mono\temp\obj\Debug\GameJam1.AssemblyInfo.cs
 D:\GameJam\.mono\temp\obj\Debug\GameJam1.csproj.CoreCompileInputs.cache
 D:\GameJam\.mono\temp\obj\Debug\GameJam1.dll
 D:\GameJam\.mono\temp\obj\Debug\GameJam1.pdb
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\bin\Debug\GameJam1.dll
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\bin\Debug\GameJam1.pdb
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\obj\Debug\GameJam1.csproj.AssemblyReference.cache
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\obj\Debug\GameJam1.GeneratedMSBuildEditorConfig.editorconfig
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\obj\Debug\GameJam1.AssemblyInfoInputs.cache
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\obj\Debug\GameJam1.AssemblyInfo.cs
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\obj\Debug\GameJam1.csproj.CoreCompileInputs.cache
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\obj\Debug\GameJam1.dll
+D:\GodotProjects\test_rowe\ScoreSpaceJam24\.mono\temp\obj\Debug\GameJam1.pdb
