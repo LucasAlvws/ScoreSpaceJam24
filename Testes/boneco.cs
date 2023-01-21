@@ -6,6 +6,8 @@ public class boneco : KinematicBody2D
     [Export]
     public int n2 = 4;
     private Vector2 velocity = new Vector2();
+
+    [Export]
     private int speed = 250;
     private double n, x, y;
     private int i;
