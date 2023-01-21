@@ -60,7 +60,7 @@ tile_data = PoolIntArray( 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 position = Vector2( 429, 285 )
-scale = Vector2( 32, 32 )
+scale = Vector2( 32, 32.2408 )
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true
