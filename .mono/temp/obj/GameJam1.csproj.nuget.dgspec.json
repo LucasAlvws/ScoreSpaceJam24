@@ -1,31 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GameJam\\GameJam1.csproj": {}
+    "D:\\GodotProjects\\test_rowe\\ScoreSpaceJam24\\GameJam1.csproj": {}
   },
   "projects": {
-    "D:\\GameJam\\GameJam1.csproj": {
+    "D:\\GodotProjects\\test_rowe\\ScoreSpaceJam24\\GameJam1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GameJam\\GameJam1.csproj",
+        "projectUniqueName": "D:\\GodotProjects\\test_rowe\\ScoreSpaceJam24\\GameJam1.csproj",
         "projectName": "GameJam1",
-        "projectPath": "D:\\GameJam\\GameJam1.csproj",
-        "packagesPath": "C:\\Users\\pirat\\.nuget\\packages\\",
-        "outputPath": "D:\\GameJam\\.mono\\temp\\obj\\",
+        "projectPath": "D:\\GodotProjects\\test_rowe\\ScoreSpaceJam24\\GameJam1.csproj",
+        "packagesPath": "C:\\Users\\guibm\\.nuget\\packages\\",
+        "outputPath": "D:\\GodotProjects\\test_rowe\\ScoreSpaceJam24\\.mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Users\\pirat\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+          "C:\\Users\\guibm\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\pirat\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Users\\pirat\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\guibm\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\guibm\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config"
         ],
         "originalTargetFrameworks": [
           "net472"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,7 +41,15 @@
       "frameworks": {
         "net472": {
           "targetAlias": "net472",
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.2, )",
+              "autoReferenced": true
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
