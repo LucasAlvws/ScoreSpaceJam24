@@ -80,7 +80,7 @@ rotation = 0.165725
 scale = Vector2( 9, 9 )
 
 [node name="Cristal" type="Sprite" parent="."]
-modulate = Color( 4, 4, 4, 1 )
+modulate = Color( 10, 10, 10, 1 )
 material = SubResource( 23 )
 position = Vector2( 1175.18, 707.042 )
 rotation = 0.980484
