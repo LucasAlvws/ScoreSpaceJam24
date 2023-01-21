@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "wUtLbZYO/23JJKhywnXOVBLAN4gSQfJUwlAE8E/+R5/3S+lGSS18D0z2s78aG1vlcdVLUBmFIwW7Wiy+uR0Kzw==",
+  "dgSpecHash": "YiK2uJgJdJq1tORWJzISvMQCez7y9cgnYhniztwOhaFYlsaTtvKk9ijUAGp0BWEp9O7Xz79Ez5uJoSTwt3UfBw==",
   "success": true,
-  "projectFilePath": "D:\\GameJam\\GameJam1.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\GodotProjects\\test_rowe\\ScoreSpaceJam24\\GameJam1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\guibm\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "C:\\Users\\guibm\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net472\\1.0.2\\microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512"
+  ],
   "logs": []
 }
