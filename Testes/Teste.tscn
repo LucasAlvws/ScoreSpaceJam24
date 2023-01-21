@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/bloco_parede2.png" type="Texture" id=1]
 [ext_resource path="res://assets/bloco_parede1.png" type="Texture" id=2]
-[ext_resource path="res://Testes/PlayerBody.cs" type="Script" id=3]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -105,24 +105,4 @@ __meta__ = {
 position = Vector2( 0.0625, 0 )
 polygon = PoolVector2Array( -1, -1, -1, 1, 1, 1, 1, -1 )
 
-[node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( 451, 399 )
-scale = Vector2( 60, 60 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="escudo" type="Node2D" parent="Player"]
-
-[node name="player" type="Node2D" parent="Player"]
-
-[node name="colisao_player" type="CollisionPolygon2D" parent="Player"]
-polygon = PoolVector2Array( -1, -1, -1, 0, 0, 0, 0, -1 )
-
-[node name="colisao_escudo" type="CollisionPolygon2D" parent="Player"]
-polygon = PoolVector2Array( -1, -1, -1, 0, 0, 0, 0, -1 )
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-smoothing_enabled = true
+[node name="Player" parent="." instance=ExtResource( 3 )]

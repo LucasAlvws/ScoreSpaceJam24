@@ -6,12 +6,23 @@ public class PlayerBody : KinematicBody2D
     [Export]
     public int n2 = 8;
     private Vector2 velocity = new Vector2();
-    private int speed = 300, i;
+    private int speed = 150, i;
     private double n, x, y;
     private Godot.CollisionPolygon2D col;
+
+    //rotation
+    public int speedR = 125;
+    public float rotationSpeed = 2;
+    public Vector2 velocityR = new Vector2();
+    public int rotationDir = 0;
+
+
+
     public override void _Ready()
     {
+        setar_escudo();
         setar_player();
+        
     }
 
     public void GetInput()
@@ -31,11 +42,39 @@ public class PlayerBody : KinematicBody2D
             velocity.y += Mathf.Lerp(velocity.y, -speed, 0.1f);
 
         velocity = velocity.Normalized() * speed;
+
+
+        rotationDir = 0;
+        velocityR = new Vector2();
+
+        if (Input.IsActionPressed("right"))
+            rotationDir += 1;
+
+        if (Input.IsActionPressed("left"))
+            rotationDir -= 1;
+
+        if (Input.IsActionPressed("down"))
+            velocityR = new Vector2(-speedR, 0).Rotated(Rotation);
+
+        if (Input.IsActionPressed("up"))
+            velocityR = new Vector2(speedR, 0).Rotated(Rotation);
+
+        velocityR = velocity.Normalized() * speed;
+
+
+        if (Input.IsActionPressed("espaco")){
+            add_sides();
+        }
+
     }
     public override void _PhysicsProcess(float delta)
     {
         GetInput();
+        
+        Rotation += rotationDir * rotationSpeed * delta;
         velocity = MoveAndSlide(velocity);
+        velocity = MoveAndSlide(velocity);
+        
     }
 
     private Vector2[] devolve_vetor(double n2)
@@ -71,7 +110,7 @@ public class PlayerBody : KinematicBody2D
         }else if(node.Equals("escudo")){
             col = GetNode<Godot.CollisionPolygon2D>("colisao_escudo");
             col.Polygon = devolve_vetor(n2);
-            col.GlobalPosition = new Vector2(0.1f,0.1f);
+            col.Position = new Vector2(0.1f,0.1f);
         }
         
     }
@@ -85,5 +124,22 @@ public class PlayerBody : KinematicBody2D
         AddChild(playerBody);
         setar_colisao("player");
         
+    }
+
+    private void setar_escudo(){
+        Godot.Node2D escudo = GetNode<Godot.Node2D>("escudo");
+        Polygon2D escudoBody = new Polygon2D();
+        escudoBody.Polygon = devolve_vetor(n2);
+        escudoBody.Color = new Color(50,50,50);
+        escudoBody.Antialiased = true;
+        escudoBody.GlobalPosition = new Vector2(0.1f,0.1f);
+        escudoBody.Name = "escudoBody";
+        AddChild(escudoBody);
+        setar_colisao("escudo");
+    }
+
+    private void add_sides(){
+        Godot.Node2D escudo = GetNode<Godot.Node2D>("escudo");
+        Godot.Polygon2D escudoBody = escudo.GetNode<Godot.Polygon2D>("escudoBody");
     }
 }
