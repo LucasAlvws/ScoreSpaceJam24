@@ -75,7 +75,7 @@ shader_param/inside = true
 shader_param/add_margins = true
 
 [node name="StaticBody2D3" type="StaticBody2D"]
-position = Vector2( -5945, -8262 )
+position = Vector2( -24, 57.002 )
 rotation = 0.165725
 scale = Vector2( 9, 9 )
 

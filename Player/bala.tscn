@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Player/Projetil.png" type="Texture" id=1]
-[ext_resource path="res://SalasMapa/Style1/BalaScript.gd" type="Script" id=2]
+[ext_resource path="res://Player/BalaScript.gd" type="Script" id=2]
 
 [node name="bala" type="Node2D"]
 scale = Vector2( 9, 9 )

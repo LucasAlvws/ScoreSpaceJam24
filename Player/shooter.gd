@@ -3,7 +3,7 @@ extends Node2D
 const bullet_scene = preload("res://Player/bala.tscn")
 
 const angulo = 270.0
-const spawn_point_count = 5
+const spawn_point_count = 3
 const radius = 1
 
 func _ready():	
@@ -18,7 +18,7 @@ func _ready():
 
 
 func _process(delta):
-	if Input.is_action_pressed("espaco", true):
+	if Input.is_action_just_pressed("espaco", true):
 		shoot()
 
 func shoot():
