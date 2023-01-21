@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Trapezio.png-2f3cc84c1b103655b39cf54ff36fb97c.stex"
+path="res://.import/triangle cortado.png-2ec25758726f09bb3142bd5dd606968e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Trapezio.png"
-dest_files=[ "res://.import/Trapezio.png-2f3cc84c1b103655b39cf54ff36fb97c.stex" ]
+source_file="res://assets/assetsMapa/triangle cortado.png"
+dest_files=[ "res://.import/triangle cortado.png-2ec25758726f09bb3142bd5dd606968e.stex" ]
 
 [params]
 

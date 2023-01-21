@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/triangle cortado.png-ce4099cddc50f42803de31e0b75d3733.stex"
+path="res://.import/triangle.png-6fde4775af3c3ad50cd79f06fe51506e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/triangle cortado.png"
-dest_files=[ "res://.import/triangle cortado.png-ce4099cddc50f42803de31e0b75d3733.stex" ]
+source_file="res://assets/assetsMapa/triangle.png"
+dest_files=[ "res://.import/triangle.png-6fde4775af3c3ad50cd79f06fe51506e.stex" ]
 
 [params]
 

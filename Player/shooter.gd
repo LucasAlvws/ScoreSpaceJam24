@@ -18,7 +18,7 @@ func _ready():
 
 
 func _process(delta):
-	if Input.is_action_just_pressed("up", true):
+	if Input.is_action_pressed("up", true):
 		shoot()
 
 func shoot():

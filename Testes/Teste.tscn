@@ -80,7 +80,7 @@ shader = SubResource( 3 )
 shader_param/bg_color = null
 
 [node name="Node2D" type="Node2D"]
-position = Vector2( -13, 16 )
+position = Vector2( 46, 107 )
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( 108, 62 )
@@ -106,3 +106,4 @@ position = Vector2( 0.0625, 0 )
 polygon = PoolVector2Array( -1, -1, -1, 1, 1, 1, 1, -1 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 323, 403 )

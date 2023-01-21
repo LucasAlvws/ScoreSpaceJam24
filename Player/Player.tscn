@@ -13,7 +13,6 @@ __meta__ = {
 [node name="escudo" type="Node2D" parent="."]
 
 [node name="shooter" type="Node2D" parent="."]
-scale = Vector2( 1, 1 )
 script = ExtResource( 2 )
 
 [node name="player" type="Node2D" parent="."]

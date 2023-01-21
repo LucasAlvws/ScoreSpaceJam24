@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/pentagon.png-984d88a9393e4a375127e9203f2837b1.stex"
+path="res://.import/Pentagono Cortado.png-ebae8179a534f9e1e570510b63e03b24.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/pentagon.png"
-dest_files=[ "res://.import/pentagon.png-984d88a9393e4a375127e9203f2837b1.stex" ]
+source_file="res://assets/assetsMapa/Pentagono Cortado.png"
+dest_files=[ "res://.import/Pentagono Cortado.png-ebae8179a534f9e1e570510b63e03b24.stex" ]
 
 [params]
 
