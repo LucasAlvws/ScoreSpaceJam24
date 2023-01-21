@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/TileRoxo.png" type="Texture" id=1]
-[ext_resource path="res://Testes/boneco.cs" type="Script" id=2]
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/assetsMapa/Quad.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/assetsMapa/Decagono.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/assetsMapa/Cristal.tscn" type="PackedScene" id=5]
@@ -305,27 +305,6 @@ margin_top = -1495.0
 margin_right = 7130.0
 margin_bottom = 4285.0
 
-[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
-position = Vector2( 3419, 2676 )
-scale = Vector2( 32, 32.2408 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Camera2D" type="Camera2D" parent="KinematicBody2D"]
-scale = Vector2( 0.03125, 0.0310166 )
-current = true
-limit_left = -128
-limit_top = -1536
-limit_right = 7167
-limit_bottom = 4288
-smoothing_enabled = true
-editor_draw_limits = true
-
-[node name="colisao" type="CollisionPolygon2D" parent="KinematicBody2D"]
-polygon = PoolVector2Array( -1, -1, -1, 1, 1, 1, 1, -1 )
-
 [node name="TileMap" type="TileMap" parent="."]
 modulate = Color( 4, 4, 4, 1 )
 material = SubResource( 2 )
@@ -341,3 +320,6 @@ position = Vector2( -3909, -5416 )
 
 [node name="StaticBody2D2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 600, 1002 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1388, 2625 )
