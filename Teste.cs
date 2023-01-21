@@ -34,9 +34,8 @@ public class Teste : Node2D
             color.Add(new Color(0,0,0));
 
         }
-        
-        
         DrawPolygon(points.ToArray(), color.ToArray() );
+        
         
         
         
