@@ -14,8 +14,3 @@ texture = ExtResource( 1 )
 [node name="KillTimer" type="Timer" parent="."]
 wait_time = 10.0
 autostart = true
-
-[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="KinematicBody2D"]
-polygon = PoolVector2Array( 0.111111, 2, 2.55556, -0.111111, 0, -2, -2.55556, 0 )

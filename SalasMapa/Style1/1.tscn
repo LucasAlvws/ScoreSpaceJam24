@@ -320,7 +320,8 @@ tile_data = PoolIntArray( -1507330, 0, 0, -1507329, 0, 0, -1572864, 0, 0, -15728
 position = Vector2( 5230, 81.9998 )
 
 [node name="StaticBody2D3" parent="." instance=ExtResource( 5 )]
-position = Vector2( -3062, -5658 )
+position = Vector2( 5606, 2364 )
+rotation = -0.536984
 
 [node name="StaticBody2D2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 4047, 2675 )
