@@ -1,0 +1,9 @@
+D:\GameJam\.mono\temp\bin\Debug\GameJam1.dll
+D:\GameJam\.mono\temp\bin\Debug\GameJam1.pdb
+D:\GameJam\.mono\temp\obj\Debug\GameJam1.csproj.AssemblyReference.cache
+D:\GameJam\.mono\temp\obj\Debug\GameJam1.GeneratedMSBuildEditorConfig.editorconfig
+D:\GameJam\.mono\temp\obj\Debug\GameJam1.AssemblyInfoInputs.cache
+D:\GameJam\.mono\temp\obj\Debug\GameJam1.AssemblyInfo.cs
+D:\GameJam\.mono\temp\obj\Debug\GameJam1.csproj.CoreCompileInputs.cache
+D:\GameJam\.mono\temp\obj\Debug\GameJam1.dll
+D:\GameJam\.mono\temp\obj\Debug\GameJam1.pdb
