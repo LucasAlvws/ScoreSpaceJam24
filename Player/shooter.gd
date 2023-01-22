@@ -3,7 +3,7 @@ extends Node2D
 const bullet_scene = preload("res://Player/bala.tscn")
 
 const angulo = 270.0
-const spawn_point_count = 3
+const spawn_point_count = 1
 const radius = 1
 
 func _ready():	
@@ -25,7 +25,7 @@ func shoot():
 	for s in self.get_children():
 		var bullet = bullet_scene.instance()
 		get_tree().root.add_child(bullet)
-		bullet.position = s.global_position
+		bullet.position = Vector2(s.global_position.x + 50, s.global_position.y +50) 
 		bullet.rotation = s.global_rotation	
 		
 

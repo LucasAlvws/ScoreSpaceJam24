@@ -4,7 +4,7 @@ using System;
 public class PlayerBody : KinematicBody2D
 {
     [Export]
-    public int n2 = 8;
+    public int n2 = 4;
     private Vector2 velocity = new Vector2();
     private int speed = 200, i;
     private double n, x, y;
@@ -20,7 +20,6 @@ public class PlayerBody : KinematicBody2D
 
     public override void _Ready()
     {
-        
         
     }
 

@@ -1,0 +1,316 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://assets/TileRoxo.png" type="Texture" id=1]
+[ext_resource path="res://assets/assetsMapa/Quad.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/assetsMapa/Decagono.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/assetsMapa/Cristal.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/assetsMapa/pentagono cortado.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/assetsMapa/pentagono.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/assetsMapa/trapezio.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/assetsMapa/triangle.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/assetsMapa/triangle cortado.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Environment" id=12]
+background_mode = 4
+glow_enabled = true
+glow_strength = 0.8
+glow_bloom = 0.2
+glow_high_quality = true
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+
+// helpful to visually debug the noise scrolling texture.
+uniform bool render_noise = false;
+// Change if you want to move the bottom vertex of each tile.
+uniform bool move_top = true;
+// how strong is the vertex going to be pulled.
+uniform vec2 distortion_force = vec2(10.0, 0.0);
+// how fast is the noise texture is going to scroll.
+uniform float time_scale :hint_range(0.0, 1.0, 0.01) = 0.1;
+// the distortion texture, can be hand made or generated with the Godot builtin
+// noise texture.
+uniform sampler2D noise_texture: hint_white;
+// the scale of the texture
+uniform float noise_scale :hint_range(0.0, 2.0, 0.0001)= 0.002;
+
+// you need to pass the world position from a script as seen
+// https://docs.godotengine.org/en/3.5/tutorials/shaders/shader_reference/canvas_item_shader.html#vertex-built-ins
+uniform mat4 global_transform;
+varying vec2 world_position;
+
+// the size of the tilemap tiles.
+const float tile_size = 8.0;
+
+vec2 get_uv(vec2 uv, float scale, float time) {
+	vec2 new_uv = uv;
+	new_uv *= scale;
+	new_uv += time;
+	return new_uv;
+}
+
+void vertex(){
+    world_position = (global_transform * vec4(VERTEX, 0.0, 1.0)).xy;
+	vec2 world_uv = get_uv(world_position, noise_scale, TIME * time_scale); 
+	vec2 noise = texture(noise_texture, world_uv).rg;
+	noise *= 2.0;
+	noise -= 1.0;
+	noise *= distortion_force;
+	
+	float a = fract(VERTEX.y / tile_size);
+	
+	if (a == 0.0 && move_top) {
+		VERTEX.x += noise.x;
+		VERTEX.y += noise.y;
+	}
+	if (a > 0.0 && !move_top) {
+		VERTEX.x += noise.x;
+		VERTEX.y += noise.y;
+	}
+}
+
+void fragment() {
+	vec4 sample = texture(TEXTURE, UV);
+	COLOR = sample;
+	
+	if (render_noise) {
+		vec3 color = sample.rgb;
+		vec2 world_uv = get_uv(world_position, noise_scale, TIME * time_scale); 
+		color = texture(noise_texture, world_uv).rgb;
+		COLOR = vec4(color, 1.0);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
+shader_param/render_noise = false
+shader_param/move_top = true
+shader_param/distortion_force = Vector2( 10, 0 )
+shader_param/time_scale = 0.1
+shader_param/noise_scale = 0.002
+shader_param/global_transform = null
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+
+// Amount of detail.
+uniform int octaves = 4;
+
+// Opacity of the output fog.
+uniform float starting_amplitude: hint_range(0.0, 0.5) = 0.5;
+
+// Rate of pattern within the fog.
+uniform float starting_frequency = 1.0;
+
+// Shift towards transparency (clamped) for sparser fog.
+uniform float shift: hint_range(-1.0, 0.0) = -0.2;
+
+// Direction and speed of travel.
+uniform vec2 velocity = vec2(1.0, 1.0);
+
+// Color of the fog.
+uniform vec4 fog_color: hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+
+// Noise texture; OpenSimplexNoise is great, but any filtered texture is fine.
+uniform sampler2D noise;
+
+float rand(vec2 uv) {
+	float amplitude = starting_amplitude;
+	float frequency = starting_frequency;
+	float output = 0.0;
+	for (int i = 0; i < octaves; i++) {
+		output += texture(noise, uv * frequency).x * amplitude;
+		amplitude /= 2.0;
+		frequency *= 2.0;
+	}
+	return clamp(output + shift, 0.0, 1.0);
+}
+
+void fragment() {
+	vec2 motion = vec2(rand(UV + TIME * starting_frequency * velocity));
+	COLOR = mix(vec4(0.0), fog_color, rand(UV + motion));
+}"
+
+[sub_resource type="OpenSimplexNoise" id=10]
+
+[sub_resource type="NoiseTexture" id=11]
+width = 1023
+height = 1023
+noise = SubResource( 10 )
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
+shader_param/octaves = 2
+shader_param/starting_amplitude = 0.345
+shader_param/starting_frequency = 1.0
+shader_param/shift = -0.108
+shader_param/velocity = Vector2( 0.005, 0.005 )
+shader_param/fog_color = Color( 0.564706, 0, 0.545098, 1 )
+shader_param/noise = SubResource( 11 )
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(1.0);
+uniform float width : hint_range(0, 10) = 1.0;
+uniform int pattern : hint_range(0, 2) = 0; // diamond, circle, square
+uniform bool inside = false;
+uniform bool add_margins = true; // only useful when inside is false
+
+void vertex() {
+	if (add_margins) {
+		VERTEX += (UV * 2.0 - 1.0) * width;
+	}
+}
+
+bool hasContraryNeighbour(vec2 uv, vec2 texture_pixel_size, sampler2D texture) {
+	for (float i = -ceil(width); i <= ceil(width); i++) {
+		float x = abs(i) > width ? width * sign(i) : i;
+		float offset;
+		
+		if (pattern == 0) {
+			offset = width - abs(x);
+		} else if (pattern == 1) {
+			offset = floor(sqrt(pow(width + 0.5, 2) - x * x));
+		} else if (pattern == 2) {
+			offset = width;
+		}
+		
+		for (float j = -ceil(offset); j <= ceil(offset); j++) {
+			float y = abs(j) > offset ? offset * sign(j) : j;
+			vec2 xy = uv + texture_pixel_size * vec2(x, y);
+			
+			if ((xy != clamp(xy, vec2(0.0), vec2(1.0)) || texture(texture, xy).a == 0.0) == inside) {
+				return true;
+			}
+		}
+	}
+	
+	return false;
+}
+
+void fragment() {
+	vec2 uv = UV;
+	
+	if (add_margins) {
+		vec2 texture_pixel_size = vec2(1.0) / (vec2(1.0) / TEXTURE_PIXEL_SIZE + vec2(width * 2.0));
+		
+		uv = (uv - texture_pixel_size * width) * TEXTURE_PIXEL_SIZE / texture_pixel_size;
+		
+		if (uv != clamp(uv, vec2(0.0), vec2(1.0))) {
+			COLOR.a = 0.0;
+		} else {
+			COLOR = texture(TEXTURE, uv);
+		}
+	} else {
+		COLOR = texture(TEXTURE, uv);
+	}
+	
+	if ((COLOR.a > 0.0) == inside && hasContraryNeighbour(uv, TEXTURE_PIXEL_SIZE, TEXTURE)) {
+		COLOR.rgb = inside ? mix(COLOR.rgb, color.rgb, color.a) : color.rgb;
+		COLOR.a += (1.0 - COLOR.a) * color.a;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/color = Color( 0.992157, 0, 1, 1 )
+shader_param/width = 2.0
+shader_param/pattern = 0
+shader_param/inside = false
+shader_param/add_margins = true
+
+[sub_resource type="ConvexPolygonShape2D" id=19]
+points = PoolVector2Array( 64, 64, 0, 64, 0, 0, 64, 0 )
+
+[sub_resource type="TileSet" id=3]
+0/name = "TileRoxo.png 0"
+0/texture = ExtResource( 1 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 64, 64 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 19 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 19 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[node name="Node2D2" type="Node2D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 12 )
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+margin_left = -1936.0
+margin_top = -2713.0
+margin_right = 8766.0
+margin_bottom = 5941.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource( 5 )
+margin_left = -88.0
+margin_top = -1520.0
+margin_right = 7134.0
+margin_bottom = 4246.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+material = SubResource( 7 )
+margin_left = -93.0
+margin_top = -1495.0
+margin_right = 7130.0
+margin_bottom = 4285.0
+
+[node name="TileMap" type="TileMap" parent="."]
+modulate = Color( 4, 4, 4, 1 )
+material = SubResource( 2 )
+tile_set = SubResource( 3 )
+format = 1
+tile_data = PoolIntArray( -1507330, 0, 0, -1507329, 0, 0, -1572864, 0, 0, -1572863, 0, 0, -1572862, 0, 0, -1572861, 0, 0, -1572860, 0, 0, -1572859, 0, 0, -1572858, 0, 0, -1572857, 0, 0, -1572856, 0, 0, -1572855, 0, 0, -1572854, 0, 0, -1572853, 0, 0, -1572852, 0, 0, -1572851, 0, 0, -1572850, 0, 0, -1572849, 0, 0, -1572848, 0, 0, -1572847, 0, 0, -1572846, 0, 0, -1572845, 0, 0, -1572844, 0, 0, -1572843, 0, 0, -1572842, 0, 0, -1572841, 0, 0, -1572840, 0, 0, -1572839, 0, 0, -1572838, 0, 0, -1572837, 0, 0, -1572836, 0, 0, -1572835, 0, 0, -1572834, 0, 0, -1572833, 0, 0, -1572832, 0, 0, -1572831, 0, 0, -1572830, 0, 0, -1572829, 0, 0, -1572828, 0, 0, -1572827, 0, 0, -1572826, 0, 0, -1572825, 0, 0, -1572824, 0, 0, -1572823, 0, 0, -1572822, 0, 0, -1572821, 0, 0, -1572820, 0, 0, -1572819, 0, 0, -1572818, 0, 0, -1572817, 0, 0, -1572816, 0, 0, -1572815, 0, 0, -1572814, 0, 0, -1572813, 0, 0, -1572812, 0, 0, -1572811, 0, 0, -1572810, 0, 0, -1572809, 0, 0, -1572808, 0, 0, -1572807, 0, 0, -1572806, 0, 0, -1572805, 0, 0, -1572804, 0, 0, -1572803, 0, 0, -1572802, 0, 0, -1572801, 0, 0, -1572800, 0, 0, -1572799, 0, 0, -1572798, 0, 0, -1572797, 0, 0, -1572796, 0, 0, -1572795, 0, 0, -1572794, 0, 0, -1572793, 0, 0, -1572792, 0, 0, -1572791, 0, 0, -1572790, 0, 0, -1572789, 0, 0, -1572788, 0, 0, -1572787, 0, 0, -1572786, 0, 0, -1572785, 0, 0, -1572784, 0, 0, -1572783, 0, 0, -1572782, 0, 0, -1572781, 0, 0, -1572780, 0, 0, -1572779, 0, 0, -1572778, 0, 0, -1572777, 0, 0, -1572776, 0, 0, -1572775, 0, 0, -1572774, 0, 0, -1572773, 0, 0, -1572772, 0, 0, -1572771, 0, 0, -1572770, 0, 0, -1572769, 0, 0, -1572768, 0, 0, -1572767, 0, 0, -1572766, 0, 0, -1572765, 0, 0, -1572764, 0, 0, -1572763, 0, 0, -1572762, 0, 0, -1572761, 0, 0, -1572760, 0, 0, -1572759, 0, 0, -1572758, 0, 0, -1572757, 0, 0, -1572756, 0, 0, -1572755, 0, 0, -1572754, 0, 0, -1572753, 0, 0, -1441794, 0, 0, -1507217, 0, 0, -1376258, 0, 0, -1441681, 0, 0, -1310722, 0, 0, -1376145, 0, 0, -1245186, 0, 0, -1310609, 0, 0, -1179650, 0, 0, -1245073, 0, 0, -1114114, 0, 0, -1179537, 0, 0, -1048578, 0, 0, -1114001, 0, 0, -983042, 0, 0, -1048465, 0, 0, -917506, 0, 0, -982929, 0, 0, -851970, 0, 0, -917393, 0, 0, -786434, 0, 0, -851857, 0, 0, -720898, 0, 0, -786321, 0, 0, -655362, 0, 0, -720785, 0, 0, -589826, 0, 0, -655249, 0, 0, -524290, 0, 0, -589713, 0, 0, -458754, 0, 0, -524177, 0, 0, -393218, 0, 0, -458641, 0, 0, -327682, 0, 0, -393105, 0, 0, -262146, 0, 0, -327569, 0, 0, -196610, 0, 0, -262033, 0, 0, -131074, 0, 0, -196497, 0, 0, -65538, 0, 0, -130961, 0, 0, -2, 0, 0, -65425, 0, 0, 65534, 0, 0, 111, 0, 0, 131070, 0, 0, 65647, 0, 0, 196606, 0, 0, 131183, 0, 0, 262142, 0, 0, 196719, 0, 0, 327678, 0, 0, 262255, 0, 0, 393214, 0, 0, 327791, 0, 0, 458750, 0, 0, 393327, 0, 0, 524286, 0, 0, 458863, 0, 0, 589822, 0, 0, 524399, 0, 0, 655358, 0, 0, 589935, 0, 0, 720894, 0, 0, 655471, 0, 0, 786430, 0, 0, 721007, 0, 0, 851966, 0, 0, 786543, 0, 0, 917502, 0, 0, 852079, 0, 0, 983038, 0, 0, 917615, 0, 0, 1048574, 0, 0, 983151, 0, 0, 1114110, 0, 0, 1048687, 0, 0, 1179646, 0, 0, 1114223, 0, 0, 1245182, 0, 0, 1179759, 0, 0, 1310718, 0, 0, 1245295, 0, 0, 1376254, 0, 0, 1310831, 0, 0, 1441790, 0, 0, 1376367, 0, 0, 1507326, 0, 0, 1441903, 0, 0, 1572862, 0, 0, 1507439, 0, 0, 1638398, 0, 0, 1572975, 0, 0, 1703934, 0, 0, 1638511, 0, 0, 1769470, 0, 0, 1704047, 0, 0, 1835006, 0, 0, 1769583, 0, 0, 1900542, 0, 0, 1835119, 0, 0, 1966078, 0, 0, 1900655, 0, 0, 2031614, 0, 0, 1966191, 0, 0, 2097150, 0, 0, 2031727, 0, 0, 2162686, 0, 0, 2097263, 0, 0, 2228222, 0, 0, 2162799, 0, 0, 2293758, 0, 0, 2228335, 0, 0, 2359294, 0, 0, 2293871, 0, 0, 2424830, 0, 0, 2359407, 0, 0, 2490366, 0, 0, 2424943, 0, 0, 2555902, 0, 0, 2490479, 0, 0, 2621438, 0, 0, 2556015, 0, 0, 2686974, 0, 0, 2621551, 0, 0, 2752510, 0, 0, 2687087, 0, 0, 2818046, 0, 0, 2752623, 0, 0, 2883582, 0, 0, 2818159, 0, 0, 2949118, 0, 0, 2883695, 0, 0, 3014654, 0, 0, 2949231, 0, 0, 3080190, 0, 0, 3014767, 0, 0, 3145726, 0, 0, 3080303, 0, 0, 3211262, 0, 0, 3145839, 0, 0, 3276798, 0, 0, 3211375, 0, 0, 3342334, 0, 0, 3276911, 0, 0, 3407870, 0, 0, 3342447, 0, 0, 3473406, 0, 0, 3407983, 0, 0, 3538942, 0, 0, 3473519, 0, 0, 3604478, 0, 0, 3539055, 0, 0, 3670014, 0, 0, 3604591, 0, 0, 3735550, 0, 0, 3670127, 0, 0, 3801086, 0, 0, 3735663, 0, 0, 3866622, 0, 0, 3801199, 0, 0, 3932158, 0, 0, 3866735, 0, 0, 3997694, 0, 0, 3932271, 0, 0, 4063230, 0, 0, 3997807, 0, 0, 4128766, 0, 0, 4063343, 0, 0, 4194302, 0, 0, 4128879, 0, 0, 4259838, 0, 0, 4194415, 0, 0, 4325374, 0, 0, 4259951, 0, 0, 4390910, 0, 0, 4390911, 0, 0, 4325376, 0, 0, 4325377, 0, 0, 4325378, 0, 0, 4325379, 0, 0, 4325380, 0, 0, 4325381, 0, 0, 4325382, 0, 0, 4325383, 0, 0, 4325384, 0, 0, 4325385, 0, 0, 4325386, 0, 0, 4325387, 0, 0, 4325388, 0, 0, 4325389, 0, 0, 4325390, 0, 0, 4325391, 0, 0, 4325392, 0, 0, 4325393, 0, 0, 4325394, 0, 0, 4325395, 0, 0, 4325396, 0, 0, 4325397, 0, 0, 4325398, 0, 0, 4325399, 0, 0, 4325400, 0, 0, 4325401, 0, 0, 4325402, 0, 0, 4325403, 0, 0, 4325404, 0, 0, 4325405, 0, 0, 4325406, 0, 0, 4325407, 0, 0, 4325408, 0, 0, 4325409, 0, 0, 4325410, 0, 0, 4325411, 0, 0, 4325412, 0, 0, 4325413, 0, 0, 4325414, 0, 0, 4325415, 0, 0, 4325416, 0, 0, 4325417, 0, 0, 4325418, 0, 0, 4325419, 0, 0, 4325420, 0, 0, 4325421, 0, 0, 4325422, 0, 0, 4325423, 0, 0, 4325424, 0, 0, 4325425, 0, 0, 4325426, 0, 0, 4325427, 0, 0, 4325428, 0, 0, 4325429, 0, 0, 4325430, 0, 0, 4325431, 0, 0, 4325432, 0, 0, 4325433, 0, 0, 4325434, 0, 0, 4325435, 0, 0, 4325436, 0, 0, 4325437, 0, 0, 4325438, 0, 0, 4325439, 0, 0, 4325440, 0, 0, 4325441, 0, 0, 4325442, 0, 0, 4325443, 0, 0, 4325444, 0, 0, 4325445, 0, 0, 4325446, 0, 0, 4325447, 0, 0, 4325448, 0, 0, 4325449, 0, 0, 4325450, 0, 0, 4325451, 0, 0, 4325452, 0, 0, 4325453, 0, 0, 4325454, 0, 0, 4325455, 0, 0, 4325456, 0, 0, 4325457, 0, 0, 4325458, 0, 0, 4325459, 0, 0, 4325460, 0, 0, 4325461, 0, 0, 4325462, 0, 0, 4325463, 0, 0, 4325464, 0, 0, 4325465, 0, 0, 4325466, 0, 0, 4325467, 0, 0, 4325468, 0, 0, 4325469, 0, 0, 4325470, 0, 0, 4325471, 0, 0, 4325472, 0, 0, 4325473, 0, 0, 4325474, 0, 0, 4325475, 0, 0, 4325476, 0, 0, 4325477, 0, 0, 4325478, 0, 0, 4325479, 0, 0, 4325480, 0, 0, 4325481, 0, 0, 4325482, 0, 0, 4325483, 0, 0, 4325484, 0, 0, 4325485, 0, 0, 4325486, 0, 0, 4325487, 0, 0 )
+
+[node name="StaticBody2D3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 5878, -557 )
+
+[node name="StaticBody2D2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 3337, 1568 )
+rotation = 0.293512
+
+[node name="StaticBody2D10" parent="." instance=ExtResource( 6 )]
+position = Vector2( 5796, 1841 )
+rotation = 0.293512
+scale = Vector2( 9, 9 )
+
+[node name="StaticBody2D8" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1483, 1529 )
+rotation = 0.293512
+scale = Vector2( 9, 9 )
+
+[node name="StaticBody2D" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4042, -116 )
+
+[node name="StaticBody2D17" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1383, -575 )
+rotation = 0.293512
+scale = Vector2( 9, 9 )
+
+[node name="StaticBody2D4" parent="." instance=ExtResource( 10 )]
+position = Vector2( 3670, 2822 )
+rotation = 0.975742
+scale = Vector2( 2, 2 )
+
+[node name="StaticBody2D5" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1020, 3398 )
+rotation = 0.736354
